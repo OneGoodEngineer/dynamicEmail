@@ -7,6 +7,10 @@ app.controller('composeEmail', function($scope, http){
       console.log('response',response.data);
     }); 
   };
+
+  $scope.getEmail = function(imageID){
+    http.getImage(imageID)
+  }
 });
 
 app.factory('http', function($http){
@@ -20,19 +24,15 @@ app.factory('http', function($http){
   };
 
   var createImage = function(emailBody){
-    return $http({
-      url: '/api/create/'+Math.floor(Math.random()*100000000),
-      method: 'POST',
-      dataType: 'application/json',
-      data: {emailBody: emailBody}
-    }).success(function(response){
-      return response;
-    });
-  };
+    var tCtx = document.getElementById('textCanvas').getContext('2d'),
+        imageElem = document.getElementById('image');
 
-  var createImage2 = function(emailBody){
+        tCtx.canvas.width = tCtx.measureText(emailBody).width;
+        tCtx.fillText(emailBody, 0, 10);
+        var dataUrl = tCtx.canvas.toDataURL();
+        console.log(imageElem.src);
     return $http.post('/api/create/'+Math.floor(Math.random()*100000000),
-      {'emailBody': emailBody}
+      {'emailBody': dataUrl}
     ).success(function(response){
       return response;
     });
@@ -40,6 +40,6 @@ app.factory('http', function($http){
 
   return {
     getImage: getImage,
-    createImage: createImage2
+    createImage: createImage
   }
 });
