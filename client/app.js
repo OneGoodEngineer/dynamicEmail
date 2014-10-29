@@ -20,19 +20,12 @@ app.factory('http', function($http){
   };
 
   var createImage = function(emailBody){
-    return $http({
-      url: '/api/create/'+Math.floor(Math.random()*100000000),
-      method: 'POST',
-      dataType: 'application/json',
-      data: {emailBody: emailBody}
-    }).success(function(response){
-      return response;
-    });
-  };
-
-  var createImage2 = function(emailBody){
+    var textCanvas = document.getElementById('textCanvas').getContext('2d')
+    textCanvas.canvas.width = textCanvas.measureText(emailBody).width;
+    textCanvas.fillText(emailBody, 0, 10);
+    var dataUrl = textCanvas.canvas.toDataURL();
     return $http.post('/api/create/'+Math.floor(Math.random()*100000000),
-      {'emailBody': emailBody}
+      {'emailBody': dataUrl}
     ).success(function(response){
       return response;
     });
@@ -40,6 +33,6 @@ app.factory('http', function($http){
 
   return {
     getImage: getImage,
-    createImage: createImage2
+    createImage: createImage
   }
 });
