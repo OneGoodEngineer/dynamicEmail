@@ -5,10 +5,15 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="app.js"></script>
+    <link rel="stylesheet" type="text/css" href="app.css">
   </head>
   <body>
-    <div ng-view>
-      <p ng-controller="composeEmail">{{ subject }}</p>
+    <div ng-view id="container">
+      <h1>Generate an image to email!</h1>
+      <form ng-controller="composeEmail" ng-submit="submitEmail(body)">
+        <textarea required ng-model="body" placeholder="Type your message here" rows="10"></textarea>
+        <input type="submit"></input>
+      </form>
     </div>
   </body>
 </html>
