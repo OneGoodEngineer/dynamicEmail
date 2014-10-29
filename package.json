@@ -11,7 +11,10 @@
     "type": "git",
     "url": "https://github.com/OneGoodEngineer/dynamicEmail.git"
   },
-  "authors": "Mike Luby <Michael@mLuby.com> (http://GitHub.com/mLuby)",
+  "contributors": [
+    "Mike Luby <Michael@mLuby.com> (http://GitHub.com/mLuby)",
+    "Geoffrey Abdallah <Geoffrey@GeoffreyAbdallah.com> (http://github.com/gabdallah222)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/OneGoodEngineer/dynamicEmail/issues"

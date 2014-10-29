@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "homepage": "https://github.com/OneGoodEngineer/dynamicEmail",
   "authors": [
-    "Mike Luby <Michael@mLuby.com> (http://GitHub.com/mLuby)"
+    "Mike Luby <Michael@mLuby.com> (http://GitHub.com/mLuby)",
+    "Geoffrey Abdallah <Geoffrey@GeoffreyAbdallah.com> (http://github.com/gabdallah222)"
   ],
   "license": "MIT",
   "ignore": [
