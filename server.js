@@ -10,8 +10,8 @@ app.get('/', function(req,res){
 })
 
 app.post('/api/create/:imgid', function(req, res){
-  console.log(app.param);
-  var path = app.param //store path in a db
+  var path = req.params.imgid;
+  console.log('image created at',path);
   fs.exists(path, function(exists){
     if(!exists){
       var messageToWrite = String(req.body);
@@ -22,8 +22,10 @@ app.post('/api/create/:imgid', function(req, res){
   });
 });
 
-app.put('/api/update/:imgid', function(req, res){
-  var path = req.path;
+// change to app.put
+app.post('/api/update/:imgid', function(req, res){
+  var path = req.params.imgid;
+  console.log('image updated:',path);
   fs.exists(path, function(exists){
     if(exists){
       var messageToWrite = req.body + '';
@@ -34,8 +36,10 @@ app.put('/api/update/:imgid', function(req, res){
   });
 });
 
-app.delete('/api/delete/:imgid', function(req, res){
-  var path = req.path;
+// change to app.delete
+app.post('/api/delete/:imgid', function(req, res){
+  var path = req.params.imgid;
+  console.log('image deleted from',path);
   fs.exists(path, function(exists){
     if(exists){
       fs.writeFile(path, '', function(){
@@ -46,7 +50,8 @@ app.delete('/api/delete/:imgid', function(req, res){
 });
 
 app.get('/api/images/:imgid', function(req, res){
-  var path = req.path;
+  var path = req.params.imgid;
+  console.log('image request for',path);
   fs.exists(path, function(exists){
     if(exists){
       fs.read(path, function(err, data){
