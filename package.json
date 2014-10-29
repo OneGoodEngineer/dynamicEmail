@@ -1,0 +1,23 @@
+{
+  "name": "dynamicEmail",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OneGoodEngineer/dynamicEmail.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OneGoodEngineer/dynamicEmail/issues"
+  },
+  "homepage": "https://github.com/OneGoodEngineer/dynamicEmail",
+  "dependencies": {
+    "angular": "^1.3.0",
+    "angular-ui-router": "^0.2.11"
+  }
+}
