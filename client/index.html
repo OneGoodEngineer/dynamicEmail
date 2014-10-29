@@ -12,8 +12,6 @@
       <h1>Generate an image to email!</h1>
       <form ng-controller="composeEmail" ng-submit="submitEmail(body)">
         <canvas id='textCanvas' height=20></canvas>
-        <img id='image'>
-        <br>
         <textarea required ng-model="body" placeholder="Type your message here" rows="10" id="text"></textarea>
         <input type="submit"></input>
       </form>

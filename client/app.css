@@ -13,10 +13,3 @@ textarea{
 }
 input[type=submit]{
 }
-
-canvas{
-    border: 1px black solid;
-}
-#textCanvas{
-    display: none;
-}
