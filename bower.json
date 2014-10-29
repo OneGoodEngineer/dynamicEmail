@@ -1,0 +1,20 @@
+{
+  "name": "dynamicEmail",
+  "version": "0.0.0",
+  "homepage": "https://github.com/OneGoodEngineer/dynamicEmail",
+  "authors": [
+    "Mike Luby <Michael@mLuby.com> (http://GitHub.com/mLuby)"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-router": "~0.2.11",
+    "angular": "~1.3.0"
+  }
+}
