@@ -1,45 +1,51 @@
-var app = require('express');
+var express = require('express');
 var fs = require('fs');
-var bodyparser = require('bodyparser')
 
 var port = process.env.PORT || 8000;
 
-app.post('/api/images:imgid', function(req, res){
-  var path = req.path //store path in a db
+var app = express();
+app.use(express.static(__dirname));
+app.get('/', function(req,res){
+  res.redirect('/client/')
+})
+
+app.post('/api/create/:imgid', function(req, res){
+  console.log(app.param);
+  var path = app.param //store path in a db
   fs.exists(path, function(exists){
     if(!exists){
-      var messageToWrite = req.body + '';
+      var messageToWrite = String(req.body);
       fs.writeFile(path, messageToWrite, function(){
-        res.end('<img src = ' + apipath + '>')
+        res.end('<img src=' + path + '>');
       });
     }
   });
 });
 
-app.post('/api/edit:imgid', function(req, res){
+app.put('/api/update/:imgid', function(req, res){
   var path = req.path;
   fs.exists(path, function(exists){
     if(exists){
       var messageToWrite = req.body + '';
       fs.writeFile(path, messageToWrite, function(){
-        res.end('edited');
+        res.end('updated');
       });
     }
   });
 });
 
-app.post('/api/replace:imgid', function(req, res){
+app.delete('/api/delete/:imgid', function(req, res){
   var path = req.path;
   fs.exists(path, function(exists){
     if(exists){
       fs.writeFile(path, '', function(){
-        res.end('overwritten');
+        res.end('deleted');
       });
     }
   });
 });
 
-app.get('/api/images:imgid', function(req, res){
+app.get('/api/images/:imgid', function(req, res){
   var path = req.path;
   fs.exists(path, function(exists){
     if(exists){
@@ -50,4 +56,6 @@ app.get('/api/images:imgid', function(req, res){
   });
 });
 
-app.listen(port)
+app.listen(port, function(){
+  console.log('Listening on port',port);
+});
