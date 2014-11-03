@@ -1,22 +1,30 @@
-var app = angular.module('dynamicEmail',[]);
+var app = angular.module('dynamicEmail',['firebase']);
 
 app.controller('composeEmail', function($scope, http){
   $scope.submitEmail = function(emailBody){ 
-    console.log('getting image', emailBody);
-    http.createImage(emailBody).then(function(response){
-      console.log('response',response.data);
-    }); 
+    http.createImage(emailBody).then(function(imageID){
+      console.log('newly-created imageID:',imageID);
+      $scope.imageID = imageID;
+    });
+  };
+  $scope.getImage = function(imageID){
+    http.getImage(imageID).then(function(imageObj){ 
+      $scope.returnedImage = imageObj.img;
+      console.log($scope.returnedImage); 
+    });
+    
   };
 });
 
-app.factory('http', function($http){
+app.value('firebaseURL', 'https://dynamicemail.firebaseio.com/');
+
+app.factory('http', function($http, $firebase, firebaseURL){
+  var ref = new Firebase(firebaseURL);
+  var sync = $firebase(ref);
+
   var getImage = function(imageID){
-    return $http({
-      url: '/api/images/'+imageID,
-      method: 'GET'
-    }).success(function(response){
-      return response;
-    });
+    var list = $firebase(ref).$asArray();
+    return list.$loaded(function(loadedList){ return loadedList.$getRecord(imageID); });
   };
 
   var createImage = function(emailBody){
@@ -24,10 +32,9 @@ app.factory('http', function($http){
     textCanvas.canvas.width = textCanvas.measureText(emailBody).width;
     textCanvas.fillText(emailBody, 0, 10);
     var dataUrl = textCanvas.canvas.toDataURL();
-    return $http.post('/api/create/'+Math.floor(Math.random()*100000000),
-      {'emailBody': dataUrl}
-    ).success(function(response){
-      return response;
+    return sync.$push({img: dataUrl}).then(function(newChildRef) {
+      console.log("added record with id " + newChildRef.name());
+      return newChildRef.name();
     });
   };
 
