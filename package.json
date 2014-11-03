@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "cd client; ../node_modules/.bin/bower install",
-    "start": "open http://localhost:8000 && node server.js"
+    "postinstall": "cd client; ../node_modules/.bin/bower install; cd ..;",
+    "start": "node server.js;"
   },
   "repository": {
     "type": "git",
