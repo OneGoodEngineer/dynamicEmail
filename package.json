@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "cd client; ../node_modules/.bin/bower install",
     "start": "node server.js"
   },
   "repository": {
