@@ -1,5 +1,5 @@
 var express = require('express');
-var http = require('http');
+var https = require('https');
 
 var app = express();
 
@@ -13,29 +13,25 @@ app.get('/api/:imageID/message.png', function(req, res){
   var imageID = req.params.imageID;
   console.log('imageID',imageID);
   // get dataURL string from firebase
-  var options = {
-    host: 'https://dynamicemail.firebaseio.com',
-    path: '/'+imageID+'/img.json',
-    method: 'GET',
-    headers: {
-      accept: '*/*'
-    }
-  };
-
-  var req = http.request(options, function(firebaseRes){
-    var firebaseData = '';
-    firebaseRes.on('data', function (chunk) {
-      firebaseData += chunk;
+  https.get('https://dynamicemail.firebaseio.com/'+imageID+'/img.json', function(firebaseRes) {
+    var firebaseDataURL = '';
+    firebaseRes.on('data', function(chunk) {
+      firebaseDataURL += chunk;
     });
-    firebaseRes.on('end', function () {
-      console.log('firebaseData',firebaseData);
+    firebaseRes.on('end', function(){
+      console.log('firebaseDataURL', firebaseDataURL);
+      // Strip leading and trailing double quotes
+      firebaseDataURL = firebaseDataURL.slice(1, firebaseDataURL.length-1);
       // decode dataURL as image
-      var image = decodeBase64Image(firebaseRes);
-      console.log('image',image);
+      var image = decodeBase64Image(firebaseDataURL).data;
+      console.log('image', image);
       // respond with image
-      res.writeHead('200', {'Content-Type': 'image/png'});
+      res.status(200);
+      res.set('Content-Type', 'image/png');
       res.end(image, 'binary');
-    });
+    })
+  }).on('error', function(e) {
+    console.error(e);
   });
 });
 
