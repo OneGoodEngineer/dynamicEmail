@@ -20,7 +20,7 @@
         <input type="text" placeholder="imageID" ng-model="imageID">
         <button ng-click="getImage(imageID)">get image</button>
         <img ng-cloak alt="generated" src="{{returnedImage || 'http://ih3.redbubble.net/image.12390736.9759/flat,550x550,075,f.jpg'}}">
-        <img ng-cloak alt="from API" src="http://localhost:8000/api/{{imageID}}/message.png">
+        <img ng-cloak alt="from API" src="https://dynamicemail.herokuapp.com/client/api/{{imageID}}/message.png">
       </form>
     </div>
   </body>
