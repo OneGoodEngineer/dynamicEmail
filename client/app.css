@@ -11,3 +11,9 @@ textarea{
   display: block;
   width: 100%
 }
+canvas{
+  border: thin dotted orange;
+}
+img{
+  border: thin dotted blue;
+}
