@@ -31,7 +31,7 @@ app.factory('http', function($http, $firebase, firebaseURL){
     textCanvas.canvas.width = textCanvas.measureText(emailBody).width;
     textCanvas.fillText(emailBody, 0, 10);
     var dataUrl = textCanvas.canvas.toDataURL();
-    return sync.$push({img: dataUrl}).then(function(newChildRef) {
+    return sync.$push({message: emailBody, img: dataUrl}).then(function(newChildRef) {
       console.log("added record with id " + newChildRef.name());
       return newChildRef.name();
     });

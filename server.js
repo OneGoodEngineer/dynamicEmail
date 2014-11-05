@@ -24,7 +24,10 @@ app.get('/api/:imageID/message.png', function(req, res){
       // decode dataURL as image
       var image = decodeBase64Image(firebaseDataURL).data;
       // respond with image
-      res.status(200).set('Content-Type', 'image/png').end(image, 'binary');
+      res.status(200)
+        .header('Content-Type', 'image/png')
+        .header('Cache-Control', 'no-cache max-age=0')
+        .end(image, 'binary');
     })
   }).on('error', function(e) {
     console.error(e);
