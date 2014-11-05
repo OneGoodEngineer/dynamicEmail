@@ -11,7 +11,7 @@ app.get('/', function(req,res){ // get to static client
 app.get('/api/:imageID/message.png', function(req, res){
   // extract imageID from request
   var imageID = req.params.imageID;
-  console.log('imageID',imageID);
+  console.log('Request for imageID', imageID);
   // get dataURL string from firebase
   https.get('https://dynamicemail.firebaseio.com/'+imageID+'/img.json', function(firebaseRes) {
     var firebaseDataURL = '';
@@ -19,16 +19,12 @@ app.get('/api/:imageID/message.png', function(req, res){
       firebaseDataURL += chunk;
     });
     firebaseRes.on('end', function(){
-      console.log('firebaseDataURL', firebaseDataURL);
       // Strip leading and trailing double quotes
       firebaseDataURL = firebaseDataURL.slice(1, firebaseDataURL.length-1);
       // decode dataURL as image
       var image = decodeBase64Image(firebaseDataURL).data;
-      console.log('image', image);
       // respond with image
-      res.status(200);
-      res.set('Content-Type', 'image/png');
-      res.end(image, 'binary');
+      res.status(200).set('Content-Type', 'image/png').end(image, 'binary');
     })
   }).on('error', function(e) {
     console.error(e);
@@ -43,7 +39,7 @@ app.listen(port, function(){
 function decodeBase64Image(dataString) {
   var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
   var response = {};
-  if (matches.length !== 3) {
+  if ( !matches || matches.length !== 3) {
     return new Error('Invalid input string');
   }
   response.type = matches[1];

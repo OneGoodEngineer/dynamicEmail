@@ -12,7 +12,6 @@ app.controller('composeEmail', function($scope, http){
       $scope.returnedImage = imageObj.img;
       console.log($scope.returnedImage); 
     });
-    
   };
 });
 
