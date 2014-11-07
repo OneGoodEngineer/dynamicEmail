@@ -32,7 +32,7 @@ app.factory('http', function($http, $firebase, firebaseURL){
     var canvasContext = canvas.getContext('2d');
     canvasContext.canvas.width = fontPx*(canvasContext.measureText(emailBody).width)+1;
     canvasContext.font = fontPx+"px Arial"
-    canvasContext.fillText(emailBody, -15, fontPx-15);
+    canvasContext.fillText(emailBody, 0, 0.75*fontPx);
 
     // canvasContext.scale(2,2);
     var dataUrl = canvasContext.canvas.toDataURL();
