@@ -1,15 +1,84 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700,800);
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
 #container {
   text-align: center;
   width: 50%;
   margin-left: auto;
   margin-right: auto;
 }
-h1 {
-  color: orange;
+
+.titlebar {
+  width: 100%;
+  height: 5em;
+  background-color: #404040;
 }
+
+.titlebar h1 {
+  color: #F53D54;
+  text-align: center;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0;
+  padding: 0;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Open Sans', sans-serif;
+}
+
 textarea{
   display: block;
-  width: 100%
+  width: 100%;
+  border: none;
+  resize:none;
+}
+
+input {
+  padding: 1em;
+  width: 25%;
+}
+
+button {
+  background-color: #404040;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  color: #F53D54;
+  border: none;
+  padding: 1em;
+}
+
+#get {
+  border-radius: 0em 2em 2em 0em;
+}
+
+::-webkit-input-placeholder {
+  color: #04BF9D;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color: #04BF9D;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #04BF9D;
+   font-family: 'Open Sans', sans-serif;
+      font-weight: 800;
+}
+
+:-ms-input-placeholder {  
+   color: #04BF9D;
+   font-family: 'Open Sans', sans-serif;
+      font-weight: 800;
 }
 canvas{
   border: thin dotted orange;
