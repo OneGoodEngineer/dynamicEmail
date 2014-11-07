@@ -3,10 +3,17 @@
 body {
   margin: 0;
   padding: 0;
+  color: #04BF9D;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+}
+div{
+  margin-bottom: .2em;
 }
 
 #container {
-  text-align: center;
+  text-align: left;
   width: 50%;
   margin-left: auto;
   margin-right: auto;
@@ -14,7 +21,7 @@ body {
 
 .titlebar {
   width: 100%;
-  height: 5em;
+  height: 4em;
   background-color: #404040;
 }
 
@@ -35,14 +42,21 @@ body {
 
 textarea{
   display: block;
-  width: 100%;
-  border: none;
+  width: 99%;
+  border: 1px #D8D8D8 solid;
+  box-shadow: 0px 1px 0px 0.7px rgba(137, 137, 137, 0.53) inset;
   resize: none;
+  margin-bottom: 0.3em;
+  height: 4em;
 }
 
 input {
   padding: 1em;
   width: 25%;
+}
+
+#createMessage input[type="number"]{
+  width: 3em;
 }
 
 button {
@@ -52,10 +66,19 @@ button {
   color: #F53D54;
   border: none;
   padding: 1em;
+  border-radius: 2em 0em 0em 2em;
 }
 
-#get {
-  border-radius: 0em 2em 2em 0em;
+canvas{
+  border: thin dotted orange;
+}
+
+img{
+  border: thin dotted blue;
+}
+
+p{
+  color: black;
 }
 
 ::-webkit-input-placeholder {
@@ -63,27 +86,18 @@ button {
   font-family: 'Open Sans', sans-serif;
   font-weight: 800;
 }
-
 :-moz-placeholder { /* Firefox 18- */
   color: #04BF9D;
   font-family: 'Open Sans', sans-serif;
   font-weight: 800;
 }
-
 ::-moz-placeholder {  /* Firefox 19+ */
-   color: #04BF9D;
-   font-family: 'Open Sans', sans-serif;
-      font-weight: 800;
+  color: #04BF9D;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
 }
-
 :-ms-input-placeholder {  
-   color: #04BF9D;
-   font-family: 'Open Sans', sans-serif;
-      font-weight: 800;
-}
-canvas{
-  border: thin dotted orange;
-}
-img{
-  border: thin dotted blue;
+  color: #04BF9D;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 800;
 }

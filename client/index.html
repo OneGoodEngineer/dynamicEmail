@@ -10,25 +10,34 @@
     <link rel="stylesheet" type="text/css" href="app.css">
   </head>
   <body>
+    <div class="titlebar">
+      <h1>Generate dynamic email:</h1>
+    </div>
     <div ng-view id="container" ng-controller="composeEmail">
-      <div class="titlebar">
-        <h1>Generate dynamic email:</h1>
+      <div id="createMessage">
+        <textarea id="text" ng-model="body" placeholder="Type your message here"></textarea>
+        <button ng-click="createMessage(body, fontPx || 12)">create message</button>
+        <label>Font size:</label>
+        <input type="number" ng-model="fontPx" placeholder="12">
       </div>
-      <div id="composeMessage">
-        <textarea ng-model="body" placeholder="Type your message here" id="text"></textarea>
-        <input ng-model="fontPx" placeholder="font size (px)">
-        <button id="get" ng-click="submitEmail(body, fontPx || 12)">create image</button>
+      <div id="destroyMessage">
+        <button ng-click="destroyMessage(messageID)">destroy message</button>
+        <input ng-model="messageID" placeholder="message id">
+        <label>{{destroyMessageStatus}}</label>
       </div>
-      <div id="viewMessage" ng-show="imageID">
+      <div id="viewMessage" ng-show="messageID">
+        <div>Message:
+          <p>{{body}}</p> 
+        </div>
         <div>Generated Canvas:
           <canvas id='textCanvas' height="20"></canvas> 
         </div>
         <div>Image from API:
-          <img src="https://dynamicemail.herokuapp.com/api/{{imageID}}/message.png"> 
+          <img src="https://dynamicemail.herokuapp.com/api/{{messageID}}/message.png"> 
         </div>
         <div>Image URL: 
           <!--<button>Copy link</button>-->
-          <a href="https://dynamicemail.herokuapp.com/api/{{imageID}}/message.png">https://dynamicemail.herokuapp.com/api/{{imageID}}/message.png</a>
+          <a href="https://dynamicemail.herokuapp.com/api/{{messageID}}/message.png">https://dynamicemail.herokuapp.com/api/{{messageID}}/message.png</a>
         </div>
       </div>        
     </div>

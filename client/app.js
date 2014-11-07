@@ -1,16 +1,18 @@
 var app = angular.module('dynamicEmail',['firebase']);
 
 app.controller('composeEmail', function($scope, http){
-  $scope.submitEmail = function(emailBody, fontPx){ 
+  $scope.createMessage = function(emailBody, fontPx){ 
     http.createImage(emailBody, fontPx).then(function(imageID){
       console.log('newly-created imageID:',imageID);
-      $scope.imageID = imageID;
+      $scope.messageID = imageID;
     });
   };
-  $scope.getImage = function(imageID){
-    http.getImage(imageID).then(function(imageObj){ 
-      $scope.returnedImage = imageObj.img;
-      console.log($scope.returnedImage); 
+  $scope.destroyMessage = function(messageID){
+    $scope.destroyMessageStatus = "destroying message...";
+    http.destroyMessage(messageID).then(function(){
+      $scope.destroyMessageStatus = "message destroyed.";
+      $scope.messageID = '';
+      $scope.body = '';
     });
   };
 });
@@ -21,9 +23,13 @@ app.factory('http', function($http, $firebase, firebaseURL){
   var ref = new Firebase(firebaseURL);
   var sync = $firebase(ref);
 
-  var getImage = function(imageID){
+  var destroyMessage = function(messageID){
+    console.log('destroying messageID', messageID);
     var list = $firebase(ref).$asArray();
-    return list.$loaded(function(loadedList){ return loadedList.$getRecord(imageID); });
+    return list.$loaded(function(loadedList){ 
+      console.log('firebase loaded, deleting messageID', messageID);
+      return loadedList.$remove(loadedList.$getRecord(messageID)); 
+    });
   };
 
   var createImage = function(emailBody, fontPx){
@@ -43,7 +49,7 @@ app.factory('http', function($http, $firebase, firebaseURL){
   };
 
   return {
-    getImage: getImage,
+    destroyMessage: destroyMessage,
     createImage: createImage
   }
 });
