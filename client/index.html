@@ -13,12 +13,13 @@
     <div ng-view id="container" ng-controller="composeEmail">
       <h1>Generate dynamic email:</h1>
       <div id="composeMessage">
-        <textarea ng-model="body" placeholder="Type your message here" rows="10" id="text"></textarea>
-        <button ng-click="submitEmail(body)">create image</button>
+        <textarea ng-model="body" placeholder="Type your message here" id="text"></textarea>
+        <input ng-model="fontPx" placeholder="font size (px)">
+        <button ng-click="submitEmail(body, fontPx || 12)">create image</button>
       </div>
       <div id="viewMessage" ng-show="imageID">
         <div>Generated Canvas:
-          <canvas id='textCanvas' height=20></canvas> 
+          <canvas id='textCanvas' height="20"></canvas> 
         </div>
         <div>Image from API:
           <img src="https://dynamicemail.herokuapp.com/api/{{imageID}}/message.png"> 
