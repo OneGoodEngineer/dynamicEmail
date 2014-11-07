@@ -19,6 +19,7 @@ body {
 }
 
 .titlebar h1 {
+  font-size: 28px;
   color: #F53D54;
   text-align: center;
   width: 50%;
@@ -36,7 +37,7 @@ textarea{
   display: block;
   width: 100%;
   border: none;
-  resize:none;
+  resize: none;
 }
 
 input {
@@ -79,4 +80,10 @@ button {
    color: #04BF9D;
    font-family: 'Open Sans', sans-serif;
       font-weight: 800;
+}
+canvas{
+  border: thin dotted orange;
+}
+img{
+  border: thin dotted blue;
 }

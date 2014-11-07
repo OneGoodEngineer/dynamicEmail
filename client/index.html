@@ -10,19 +10,27 @@
     <link rel="stylesheet" type="text/css" href="app.css">
   </head>
   <body>
-    <div class="titlebar">
-      <h1>Take Control of Your Email</h1>
-    </div>
-    <div ng-view id="container">
-      <form ng-controller="composeEmail">
-        <canvas id='textCanvas' height=20></canvas> 
-        <textarea ng-model="body" placeholder="Type your message here" rows="10" id="text"></textarea>
-        <button ng-click="submitEmail(body)">create image</button>
-        <hr />
-        <input type="text" placeholder="IMAGE ID" ng-model="imageID">
-        <button id="get" ng-click="getImage(imageID)">get image</button>
-        <img ng-cloak src="{{returnedImage || 'http://ih3.redbubble.net/image.12390736.9759/flat,550x550,075,f.jpg'}}">
-      </form>
+    <div ng-view id="container" ng-controller="composeEmail">
+      <div class="titlebar">
+        <h1>Generate dynamic email:</h1>
+      </div>
+      <div id="composeMessage">
+        <textarea ng-model="body" placeholder="Type your message here" id="text"></textarea>
+        <input ng-model="fontPx" placeholder="font size (px)">
+        <button id="get" ng-click="submitEmail(body, fontPx || 12)">create image</button>
+      </div>
+      <div id="viewMessage" ng-show="imageID">
+        <div>Generated Canvas:
+          <canvas id='textCanvas' height="20"></canvas> 
+        </div>
+        <div>Image from API:
+          <img src="https://dynamicemail.herokuapp.com/api/{{imageID}}/message.png"> 
+        </div>
+        <div>Image URL: 
+          <button>Copy link</button>
+          <a href="https://dynamicemail.herokuapp.com/api/{{imageID}}/message.png">https://dynamicemail.herokuapp.com/api/{{imageID}}/message.png</a>
+        </div>
+      </div>        
     </div>
   </body>
 </html>
