@@ -1,126 +1,85 @@
 var App = React.createClass({
   getInitialState () {
-    return {
-      selectedMessage: this.props.data.messages[1]
-    }
+    return { content: null, id: null }
+  },
+  componentWillMount () {
+    this.firebaseRef = new Firebase("https://dynamicemail.firebaseio.com/")
+    this.firebaseRef.on("child_added", (dataSnapshot => {
+      var id = dataSnapshot.name()
+      console.log(`firebase added ${id}`)
+      this.setState({id: id})
+    }).bind(this))
+    this.firebaseRef.on("child_removed", (dataSnapshot => {
+      var id = dataSnapshot.name()
+      console.log(`firebase removed ${id}`)
+      this.setState({id: null})
+    }).bind(this))
+  },
+  componentWillUnmount () {
+    this.firebaseRef.off()
+  },
+  contentUpdated (event) {
+    this.setState({ content: event.target.value })
+  },
+  destroyIdUpdated (event) {
+    this.setState({ id: event.target.value })
+  },
+  createMessage (content) {
+    console.log('creating message from content', content)
+    var fontPx = 12
+    var canvas = document.getElementById('textCanvas')
+    canvas.setAttribute("height", fontPx)
+    var canvasContext = canvas.getContext('2d')
+    canvasContext.canvas.width = fontPx * (canvasContext.measureText(content).width) + 1
+    canvasContext.font = fontPx + "px Arial"
+    canvasContext.fillText(content, 0, 0.75*fontPx)
+    // canvasContext.scale(2,2)
+    var dataUrl = canvasContext.canvas.toDataURL()
+    this.firebaseRef.push({message: content, img: dataUrl})
+  },
+  destroyMessage (id) {
+    console.log('destroying message with id', id)
+    this.firebaseRef.child(id).remove(x => {console.log(`finished deleting ${JSON.stringify(arguments)}`)})
   },
   render () {
     return (
       <div>
-        <h1>Dynamic Email</h1>
-        <Messages messages={this.props.data.messages}/>
-        <MessageEditor selectedMessage={this.state.selectedMessage}/>
+        <div class="titlebar">
+          <h1>Generate dynamic email:</h1>
+        </div>
+        <div id="container">
+          <div id="createMessage">
+            <textarea id="text" placeholder="Type your message here" onChange={this.contentUpdated}></textarea>
+            <button onClick={this.createMessage.bind(this, this.state.content)}>create message</button>
+            <label>Font size:</label>
+            <input type="number" placeholder="12" disabled />
+          </div>
+          <div id="destroyMessage">
+            <button onClick={this.destroyMessage.bind(this, this.state.id)}>destroy message</button>
+            <input onChange={this.destroyIdUpdated} placeholder="message id" value={this.state.id} />
+            <label>{this.state.destroyMessageStatus}</label>
+          </div>
+          <div id="viewMessage" ng-show="messageID">
+            <div>Message:
+              <p>{this.state.content}</p>
+            </div>
+            <div>Generated Canvas:
+              <canvas id='textCanvas' height="20"></canvas>
+            </div>
+            <div>Image from API:
+              <img src={`https://dynamicemail.herokuapp.com/api/${this.state.id}/message.png`} />
+            </div>
+            <div>Image URL:
+              <a href={`https://dynamicemail.herokuapp.com/api/${this.state.id}/message.png`}>https://dynamicemail.herokuapp.com/api/{this.state.id}/message.png</a>
+            </div>
+            <div>HTML to copy:
+              <p>&lt;img url="https://dynamicemail.herokuapp.com/api/{this.state.id}/message.png"&gt;</p>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
 })
 
-var Messages = React.createClass({
-  renderMessages (messages) {
-    return (messages.map(message => {
-      return (<Message id={message.id} content={message.content}/>)
-    }))
-  },
-  render () {
-    return (
-      <div>
-        <h2>Messages:</h2>
-        {this.props.messages.map(m => {return (
-          <Message id={m.id} content={m.content}/>
-        )})}
-      </div>
-    )
-  }
-})
-
-var Message = React.createClass({
-  render () {
-    return (
-      <div>
-        <span>id: {this.props.id}</span>
-        <span>content: {this.props.content}</span>
-      </div>
-    )
-  }
-})
-
-var MessageEditor = React.createClass({
-  m () { return this.props.selectedMessage },
-  render () {
-    return (
-      <form>
-        <h3>Message:</h3>
-        {this.props.selectedMessage}
-        <textarea>{this.m().content}</textarea>
-        <CreateMessage content={this.m().content} />
-        <UpdateMessage id={this.m().id} content={this.m().content} />
-        <DeleteMessage id={this.m().id} />
-      </form>
-    )
-  }
-})
-
-var CreateMessage = React.createClass({
-  render () {
-    return (
-      <button>Create</button>
-    )
-  }
-})
-
-var UpdateMessage = React.createClass({
-  render () {
-    return (
-      <button>Update</button>
-    )
-  }
-})
-
-var DeleteMessage = React.createClass({
-  render () {
-    return (
-      <button>Delete</button>
-    )
-  }
-})
-
-var DATA = {messages:[
-  {id:1, content:'first!'},
-  {id:2, content:'ho hum'},
-  {id:3, content:'last :('}
-]}
-React.render(<App data={DATA}/>, document.body)
-
-
-
-
-/*
-var firebaseURL = 'https://dynamicemail.firebaseio.com/'
-var ref = new Firebase(firebaseURL)
-var sync = $firebase(ref)
-
-function destroyMessage (messageID) {
-  console.log('destroying messageID', messageID)
-  var list = $firebase(ref).$asArray()
-  return list.$loaded(function(loadedList){
-    console.log('firebase loaded, deleting messageID', messageID)
-    return loadedList.$remove(loadedList.$getRecord(messageID))
-  })
-}
-
-function createImage (message) {
-  var fontPx = 12
-  var canvas = document.getElementById('textCanvas')
-  canvas.setAttribute("height", fontPx)
-  var canvasContext = canvas.getContext('2d')
-  canvasContext.canvas.width = fontPx * (canvasContext.measureText(message).width) + 1
-  canvasContext.font = fontPx + "px Arial"
-  canvasContext.fillText(message, 0, 0.75*fontPx)
-  // canvasContext.scale(2,2)
-  var dataUrl = canvasContext.canvas.toDataURL()
-  return sync.$push({message: message, img: dataUrl}).then(function(newChildRef) {
-    console.log("added record with id " + newChildRef.name())
-    return newChildRef.name()
-  })
-}
-*/
+React.render(<App />, document.body)
